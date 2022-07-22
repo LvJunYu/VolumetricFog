@@ -156,7 +156,7 @@ Material:
     - _GlossMapScale: 0.5
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GradientDis: 127.94
+    - _GradientDis: 68.2
     - _GradientStart: 0
     - _HGFactor: 0
     - _HeightBottomGradient: 0
@@ -165,7 +165,7 @@ Material:
     - _HeightPower: 2.2
     - _HeightTransitionEnable: 2
     - _HighChangeEnable: 1
-    - _HighEnhance: -0.43
+    - _HighEnhance: -0.77
     - _HighEnhanceStart: 88.9
     - _LowChangeEnable: 0
     - _LowReduce: 0

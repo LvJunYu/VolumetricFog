@@ -1,4 +1,4 @@
-Shader "Athena/VolumetricFog/Compose"
+Shader "Hidden/VolumetricFog/Compose"
 {
     Properties
     {

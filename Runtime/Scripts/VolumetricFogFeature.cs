@@ -77,14 +77,14 @@ public class VolumetricFogFeature : ScriptableRendererFeature
     public override void Create()
     {
         if (settings.filterShader == null)
-            settings.filterShader = Shader.Find("Athena/VolumetricFog/Filter");
+            settings.filterShader = Shader.Find("Hidden/VolumetricFog/Filter");
         if (settings.composeShader == null)
-            settings.composeShader = Shader.Find("Athena/VolumetricFog/Compose");
+            settings.composeShader = Shader.Find("Hidden/VolumetricFog/Compose");
 #if UNITY_EDITOR
         if (settings.noiseTexture == null)
             settings.noiseTexture =
                 AssetDatabase.LoadAssetAtPath<Texture2D>(
-                    "Packages/com.pwrd.volumetric-fog/Runtime/Textures/BlueNoise.TGA");
+                    "Packages/volumetric-fog/Runtime/Textures/BlueNoise.TGA");
 #endif
         _volumetricFogPass?.Dispose();
         _volumetricFogPass = new VolumetricFogPass();

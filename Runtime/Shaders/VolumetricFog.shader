@@ -1,4 +1,4 @@
-﻿Shader "Athena/VolumetricFog/Fog"
+﻿Shader "LYU/VolumetricFog/Fog"
 {
     Properties
     {

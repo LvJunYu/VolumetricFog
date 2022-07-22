@@ -31,7 +31,7 @@ public class HeightTexFetch : MonoBehaviour
         var size = Mathf.Max(transSize.x, transSize.z);
         center.y += transSize.y;
         var texSize = Mathf.Min(MaxHeightTextureSize, Mathf.RoundToInt(size * 2f / meterPerPix));
-        var depthCopyShader = Shader.Find("Hidden/Athena/VolumetricFog/HeightFetchCopyDepth");
+        var depthCopyShader = Shader.Find("Hidden/VolumetricFog/HeightFetchCopyDepth");
         var savePath = path.Replace(extendName, "_HeightMap.png");
         bakedHeightMap = GetDepth(center, size, height, blurCount, layerMask, texSize, depthCopyShader,
             savePath);

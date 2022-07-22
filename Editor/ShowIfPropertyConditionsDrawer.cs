@@ -1,7 +1,4 @@
-﻿//#if ATHENA_PIPELINE
-//#else
-
-using System;
+﻿using System;
 using System.Text.RegularExpressions;
 using UnityEngine;
 using UnityEditor;
@@ -201,4 +198,3 @@ public class ShowIfPropertyConditionsDrawer : MaterialPropertyDrawer
         return Activator.CreateInstance(klass, args) as MaterialPropertyDrawer;
     }
 }
-//#endif

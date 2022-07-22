@@ -1,4 +1,4 @@
-Shader "Athena/VolumetricFog/Filter"
+Shader "Hidden/VolumetricFog/Filter"
 {
     Properties
     {
@@ -28,12 +28,6 @@ Shader "Athena/VolumetricFog/Filter"
 
             #include "Packages/com.unity.render-pipelines.universal/ShaderLibrary/Core.hlsl"
             #include "Packages/com.unity.render-pipelines.core/ShaderLibrary/Color.hlsl"
-            #ifdef DEBUG
-            #include "Packages/com.pwrd.athena-render-pipeline/Shaders/Framework/Modules/Debug/ShaderDebug.hlsl"
-            #else
-            #define DEBUG_OUTPUT(color, id, s)
-            #define SHOW_DEBUG_OUTPUT_FRAGMENT_ONLY(worldPos)
-            #endif
 
             struct Attributes
             {
@@ -233,7 +227,6 @@ Shader "Athena/VolumetricFog/Filter"
                 	half movedDepth = dot(GetCameraPositionWS() - _LastCameraPos, _CameraForward);
                     half curDepth = max(depthLinear + movedDepth, 0);
 
-                    DEBUG_OUTPUT(half4(abs(lastDepth - curDepth), 0, 0, 0), 1002001, "Athena/体积雾/深度差值");
             		half minDepth = min(curDepth, lastDepth);
                 	
             		// threshold varies with distance
@@ -281,8 +274,6 @@ Shader "Athena/VolumetricFog/Filter"
                     historyWeight *= DepthClamp(lastUV, uv, depthLinear);
                     col = lerp(col, historyCol, historyWeight);
                 }
-                DEBUG_OUTPUT(half4(col.rgb, 0), 1002009, "Athena/体积雾/体积雾最终");
-                SHOW_DEBUG_OUTPUT_FRAGMENT_ONLY(ReconstructWorldPos(uv, depth))
                 return col;
             }
             ENDHLSL

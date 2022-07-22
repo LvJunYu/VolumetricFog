@@ -1,4 +1,4 @@
-﻿Shader "Hidden/Athena/VolumetricFog/HeightFetchCopyDepth"
+﻿Shader "Hidden/VolumetricFog/HeightFetchCopyDepth"
 {
     Properties
     {
