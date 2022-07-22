@@ -125,9 +125,10 @@
             Blend One SrcAlpha, DstAlpha Zero
 
             HLSLPROGRAM
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS
-            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS_CASCADE
-            #pragma multi_compile _ _NoiseEnable
+            #pragma multi_compile _ _MAIN_LIGHT_SHADOWS _MAIN_LIGHT_SHADOWS_CASCADE _MAIN_LIGHT_SHADOWS_SCREEN
+            #pragma multi_compile_fragment _ _NoiseEnable
+            #pragma multi_compile_fragment _ _MultiScattering_Enable
+
             // #pragma shader_feature_local _Use_PCG_Noise
             #pragma shader_feature_local _VOLUMEMAPENABLE_NOTEXTURE _VOLUMEMAPENABLE_3DTEXTURE _VOLUMEMAPENABLE_2DTEXTURE
             #pragma shader_feature_local _HEIGHTTRANSITIONENABLE_NO _HEIGHTTRANSITIONENABLE_MULTIPLY _HEIGHTTRANSITIONENABLE_SUBTRACT
@@ -446,10 +447,10 @@
                 float maxDepth = GetMaxDepth(opaqueDepth);
                 float4 intersect = IntersectCube(viewDirWS, screenUV, maxDepth);
                 half4 res = RayMarching(intersect.xyz, intersect.w, viewDirWS, screenUV);
-                if (all(res.rgb == 0))
-                {
-                    res.a = 1;
-                }
+                // if (all(res.rgb == 0))
+                // {
+                //     res.a = 1;
+                // }
                 Output output;
                 output.color = res;
                 output.fogDepth = float4(GetFogDepth(maxDepth, input.posCS.z, opaqueDepth), 0, 0, 0); // depth override, so alpha is zero. CompareDepth(maxDepth, input.posCS.z);

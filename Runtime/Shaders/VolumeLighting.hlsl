@@ -3,6 +3,10 @@
 
 #include "VolumeCommon.hlsl"
 
+#if _MultiScattering_Enable
+#include "Packages/com.lyu.atmosphere-scattering/Runtime/Shaders/AtmosphereCommon.hlsl"
+#endif
+
 #if UNITY_REVERSED_Z
 #define CompareDepth(a, b) max(a, b)
 #else
@@ -296,15 +300,24 @@ void CalculateLighting(RayMarchData data, GlobalData global_data, half curDensit
         // fogColor = lerp(_FogColorBottom, _FogColor, saturate(data.fixedHeight01 * _FogColorBottomPower));
         // curDensity *= lerp(1 - _BottomShadow, 1, saturate(data.fixedHeight01 * _FogColorBottomPower));
     }
-    // https://www.ea.com/frostbite/news/physically-based-unified-volumetric-rendering-in-frostbite
-    // lighting = light * shadow * extinction
-    // sliceLightIntegral = lighting * (1 - exp(-extinction * stepDistance)) / extinction
-    //                    = light * shadow * (1 - exp(-extinction * stepDistance))
-    half lighting = _FogColorIntensity * shadow;
+    
+    half3 multiScatteredLuminance = 0.0;
+    #if _MultiScattering_Enable
+        float3 P = data.curPos / _DistanceUnitMeter + float3(0, _BottomRadius, 0);
+        half pHeight = length(P);
+        const half3 UpVector = P / pHeight;
+        half SunZenithCosAngle = dot(light.direction, UpVector);
+        multiScatteredLuminance = GetMultipleScattering(pHeight, SunZenithCosAngle);
+    #endif
+    
     float sliceTransmittance = exp(-curDensity * data.stepDistance);
-    half sliceLightIntegral = lighting;
-    sliceLightIntegral *= (1.0 - sliceTransmittance);
-    accuColor.rgb += sliceLightIntegral * accuColor.a * fogColor;
+    // https://www.ea.com/frostbite/news/physically-based-unified-volumetric-rendering-in-frostbite
+    // lighting = (directLight * shadow + multiScatter) * extinction
+    // sliceLightIntegral = lighting * (1 - exp(-extinction * stepDistance)) / extinction
+    //                    = (directLight * shadow + multiScatter) * (1 - exp(-extinction * stepDistance))
+    half3 sliceLightIntegral = _FogColorIntensity * shadow + multiScatteredLuminance; 
+    sliceLightIntegral *= (1.0 - sliceTransmittance) * accuColor.a * fogColor;
+    accuColor.rgb += sliceLightIntegral;
     accuColor.a *= sliceTransmittance;
 }
 
