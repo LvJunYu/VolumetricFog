@@ -4,7 +4,7 @@
 #include "VolumeCommon.hlsl"
 
 #if _MultiScattering_Enable
-#include "Packages/com.lyu.atmosphere-scattering/Runtime/Shaders/AtmosphereCommon.hlsl"
+#include "Packages/atmosphere-scattering/Runtime/Shaders/AtmosphereCommon.hlsl"
 #endif
 
 #if UNITY_REVERSED_Z
