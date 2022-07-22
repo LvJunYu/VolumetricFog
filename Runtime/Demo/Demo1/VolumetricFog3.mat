@@ -1,0 +1,172 @@
+%YAML 1.1
+%TAG !u! tag:unity3d.com,2011:
+--- !u!21 &2100000
+Material:
+  serializedVersion: 6
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_Name: VolumetricFog3
+  m_Shader: {fileID: 4800000, guid: a44899e910ba13548835067da30061b5, type: 3}
+  m_ShaderKeywords: _COLORGRADIENTENABLE_ON _ENVIRONMENTREFLECTIONS_OFF _HEIGHTTRANSITIONENABLE_NO
+    _Use3DTexture _VOLUMEMAPENABLE_2DTEXTURE
+  m_LightmapFlags: 4
+  m_EnableInstancingVariants: 0
+  m_DoubleSidedGI: 0
+  m_CustomRenderQueue: 3001
+  stringTagMap: {}
+  disabledShaderPasses: []
+  m_SavedProperties:
+    serializedVersion: 3
+    m_TexEnvs:
+    - _BaseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _BumpMap2:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _CloudNoiseMap:
+        m_Texture: {fileID: 2800000, guid: f9496da1ad58ec34da5a86aaf9cdb985, type: 3}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _DetailNoiseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _HeightMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _MainTex:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _NoiseMap:
+        m_Texture: {fileID: 0}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    - _VolumeMap:
+        m_Texture: {fileID: 11700000, guid: c3bc7021e1c501641a8c68375f5cf421, type: 2}
+        m_Scale: {x: 1, y: 1}
+        m_Offset: {x: 0, y: 0}
+    m_Floats:
+    - _AlphaBlendStrength: 0
+    - _AlphaClip: 0
+    - _AlphaStrength: 6.57
+    - _AlphaValue: 1
+    - _Blend: 0
+    - _BorderGradientEnable: 0
+    - _BorderTransition: 0.128
+    - _BumpScale: 1
+    - _ColorGradientEnable: 1
+    - _Cull: 2
+    - _Cutoff: 0.5
+    - _DampDistance: 10
+    - _DenoiseEnable: 0
+    - _Density: 0.01
+    - _DetailNoiseEnable: 0
+    - _DetailNoiseIntensity: 1
+    - _DetailNoiseMapScale: 0.1
+    - _DetailNoiseSpeed: 0.1
+    - _DstBlend: 0
+    - _EmissionMaskEnable: 0
+    - _EnableLightColor: 1
+    - _EnvironmentReflections: 0
+    - _FogAlpha: 0.6
+    - _FogColorIntensity: 5
+    - _FogColorPos: 0.5
+    - _FogColorRange: 1
+    - _FogColorStrength: 1
+    - _FogIndirectIntensity: 0
+    - _FogStartDistance: 10
+    - _FogStencilGroup: 1
+    - _GlassReflectionController: 1
+    - _GlossMapScale: 0
+    - _Glossiness: 0
+    - _GlossyReflections: 0
+    - _GradientDis: 10
+    - _GradientStart: 0
+    - _HGFactor: 0
+    - _HeightMapDepth: 10
+    - _HeightMapEnable: 0
+    - _HeightPower: 1
+    - _HeightTransitionEnable: 0
+    - _HighChangeEnable: 0
+    - _HighEnhance: 0
+    - _HighEnhanceStart: 100
+    - _HighQuality: 0
+    - _IBLAOStrength: 0
+    - _LowChangeEnable: 0
+    - _LowReduce: 0
+    - _LowReduceMin: 0.2
+    - _LowReduceStart: 0
+    - _MaxDistance: 50
+    - _MaxDistanceEnable: 0
+    - _MaxHeight: 100
+    - _MaxLightValue: 10
+    - _Metallic: 0
+    - _MinHeight: 100
+    - _NearDampEnable: 0
+    - _NoiseLayerCount: 0
+    - _NoiseScale: 1.5
+    - _OcclusionStrength: 1
+    - _QueueOffset: 0
+    - _ReceiveShadows: 1
+    - _ReduceNoiseTiling: 0
+    - _ReduceUnderHeight: 0
+    - _SelfShadowEnable: 0
+    - _SelfShadowIntensity: 10
+    - _SelfShadowOffset: 1
+    - _ShadowEnable: 0
+    - _ShadowIntensity: 0
+    - _ShadowPow: 1
+    - _Smoothness: 0.5
+    - _SpecularHighlights: 1
+    - _SrcBlend: 1
+    - _Surface: 0
+    - _TintEnable: 0
+    - _UsePCGNoise: 0
+    - _VolumeHeight: 0.67
+    - _VolumeHeightOffset: 0.21
+    - _VolumeMapEnable: 2
+    - _VolumeMapIntensity: 1
+    - _VolumeMapIntensity2: 0.4
+    - _VolumeMapIntensity3: 0.3
+    - _VolumeMapIntensity4: 0.2
+    - _VolumeMapPow: 1
+    - _VolumeMapPow2: 1
+    - _VolumeMapPow3: 1
+    - _VolumeMapPow4: 1
+    - _VolumeMapScale: 0.072
+    - _VolumeMapScale2: 0.05
+    - _VolumeMapScale3: 0.05
+    - _VolumeMapScale4: 0.05
+    - _VolumeMapScale_2D: 0.1
+    - _VolumeMapSpeedAll: 1
+    - _VolumeMapSpeedDown: 1
+    - _VolumeMapSpeedScale: 1
+    - _WorkflowMode: 1
+    - _ZWrite: 1
+    m_Colors:
+    - _BaseColor: {r: 1, g: 1, b: 1, a: 1}
+    - _Color: {r: 0.5, g: 0.5, b: 0.5, a: 1}
+    - _EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _FogColor: {r: 1, g: 1, b: 1, a: 1}
+    - _FogColorBottom: {r: 0.5803922, g: 0.96273726, b: 1, a: 1}
+    - _G_EmissionColor: {r: 0, g: 0, b: 0, a: 1}
+    - _HeightMapCenterRange: {r: 0, g: 0, b: 0, a: 100}
+    - _SpecColor: {r: 0.19999996, g: 0.19999996, b: 0.19999996, a: 1}
+    - _TextureAtlasing_LocalMetric: {r: 0, g: 0, b: 0, a: 0}
+    - _VolemeMapScale: {r: 1, g: 0, b: 0, a: 1}
+    - _VolemeMapSpeed: {r: 1, g: 0, b: 0, a: 1}
+    - _VolumeMapScale: {r: 1, g: 1, b: 1, a: 0.1}
+    - _VolumeMapSpeed: {r: 0, g: 0, b: 0.1, a: 1}
+    - _VolumeMapSpeed2: {r: 0.3, g: 0, b: 0, a: 1}
+    - _VolumeMapSpeed3: {r: 0.3, g: 0, b: 0, a: 1}
+    - _VolumeMapSpeed4: {r: 0.3, g: 0, b: 0, a: 1}
+    - _VolumeMapSpeedAll: {r: 1, g: 1, b: 1, a: 1}
+    - _VolumeMapSpeed_2D: {r: 0.1, g: 0, b: 0, a: 1}
+  m_BuildTextureStacks: []

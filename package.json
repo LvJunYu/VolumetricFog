@@ -1,0 +1,9 @@
+{
+  "description": "Volumetric Fog For URP.",
+  "displayName": "Volumetric Fog",
+  "name": "volumetric-fog",
+  "version": "0.0.1",
+  "dependencies": {
+    "com.unity.render-pipelines.universal": "7.2.1"
+  }
+}
