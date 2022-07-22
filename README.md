@@ -1,6 +1,8 @@
 # Volumetric Fog for URP
 
-![](Documentation~/GroundFog.gif)
+![](Documentation~/VolumetricFog1.png)
+
+![](Documentation~/VolumetricFog2.gif)
 
 ### References
 * [Gjoel16] [Low Complexity, High Fidelity: The Rendering of INSIDE, GDC 2016](Gjoel_Svendsen_Rendering_of_Inside.pdf)
