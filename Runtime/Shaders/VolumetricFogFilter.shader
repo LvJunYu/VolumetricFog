@@ -66,7 +66,7 @@ Shader "Hidden/VolumetricFog/Filter"
             TEXTURE2D_FLOAT(_LastDepthTexture);
             SAMPLER(sampler_LastDepthTexture);
 
-            #include "VolumeCommon.hlsl"
+            #include "VolumetricFogCommon.hlsl"
 
             Varyings Vertex(Attributes input)
             {

@@ -44,25 +44,34 @@ public class ShowIfPropertyConditionsDrawer : MaterialPropertyDrawer
     private float propertyHeight = 0;
 
     public ShowIfPropertyConditionsDrawer(string property, string comparer, float value) : this(property, comparer,
-        value, null, null, 0, null)
+        value, null, null, 0, null, null, 0, null)
     {
     }
 
     public ShowIfPropertyConditionsDrawer(string property, string comparer, float value,
         string property2 = null, string comparer2 = null, float value2 = 0) : this(property, comparer,
-        value, property2, comparer2, value2, null)
+        value, property2, comparer2, value2, null, null, 0, null)
     {
     }
 
     public ShowIfPropertyConditionsDrawer(string property, string comparer, float value,
         string property2 = null, string comparer2 = null, float value2 = 0,
-        string property3 = null, string comparer3 = null, float value3 = 0)
+        string property3 = null, string comparer3 = null, float value3 = 0) : this(property, comparer,
+        value, property2, comparer2, value2, property3, comparer3, value3, null)
+    {
+    }
+
+    public ShowIfPropertyConditionsDrawer(string property, string comparer, float value,
+        string property2 = null, string comparer2 = null, float value2 = 0,
+        string property3 = null, string comparer3 = null, float value3 = 0,
+        string property4 = null, string comparer4 = null, float value4 = 0)
     {
         argValue = new PropertyCondition[]
         {
             new PropertyCondition(property, comparer, value),
             new PropertyCondition(property2, comparer2, value2),
-            new PropertyCondition(property3, comparer3, value3)
+            new PropertyCondition(property3, comparer3, value3),
+            new PropertyCondition(property4, comparer4, value4)
         };
     }
 
@@ -185,7 +194,7 @@ public class ShowIfPropertyConditionsDrawer : MaterialPropertyDrawer
 
             // if can parse as a float, use the float; otherwise pass the string
             if (float.TryParse(arg, System.Globalization.NumberStyles.Float,
-                System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out f))
+                    System.Globalization.CultureInfo.InvariantCulture.NumberFormat, out f))
             {
                 args[i] = f;
             }

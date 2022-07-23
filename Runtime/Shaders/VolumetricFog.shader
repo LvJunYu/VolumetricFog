@@ -8,11 +8,11 @@
         _FogAlpha("雾的透视度", Range(0.0, 10.0)) = 0.75
         _Density("雾的密度", Range(0.0, 1.0)) = 0.01
         _FogColorIntensity("光照强度", Range(0.0, 20.0)) = 5.0
-        
+
         [Toggle(_ReceiveShadow)] _ShadowEnable("接受阴影", Float) = 1.0
         [ShowIfPropertyConditions(_ShadowEnable, Equal, 1)] _ShadowIntensity("阴影强度", Range(0.0, 1.0)) = 1.0
         _HGFactor("相位系数（大于0逆光更亮）", Range(-0.96, 0.96)) = 0.3
-//        [HideInInspector] _MaxLightValue("亮度最大值Clamp", Range(0, 10)) = 10
+        //        [HideInInspector] _MaxLightValue("亮度最大值Clamp", Range(0, 10)) = 10
 
         [Header(ColorGradient)]
         [Toggle]_ColorGradientEnable("底部颜色渐变", Float) = 0.0
@@ -30,13 +30,15 @@
 
         [Toggle(_UseHeightMap)][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0)] _HeightMapEnable("使用高度图", Float) = 0.0
         [NoScaleOffset][SinglelineTexture][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _HeightMap("高度图", 2D) = "black" {}
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _ReduceFloating("削弱浮动的雾(高度图上没有值的区域)", Range(0.0, 1.0)) = 0.0
         [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _ReduceUnderHeight("遮蔽下削弱", Range(0.0, 1.0)) = 0.0
-        [Toggle][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _LowChangeEnable("修改低处雾", Float) = 0.0
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _LowChangeEnable, Equal, 1)] _LowReduceStart("低处调整的阈值", Float) = 0.0
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _LowChangeEnable, Equal, 1)] _LowReduce("修改低处雾", Range(-1.0, 1.0)) = 0.0
-        [Toggle][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _HighChangeEnable("修改高处雾", Float) = 0.0
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _HighChangeEnable, Equal, 1)] _HighEnhanceStart("高处调整的阈值", Float) = 100.0
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _HighChangeEnable, Equal, 1)] _HighEnhance("修改高处雾", Range(-1.0, 1.0)) = 0.0
+        [Toggle][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _BasedHeightMapEnable("基于高度图进行衰减", Float) = 1.0
+        [Toggle][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _LowChangeEnable("修改低处雾", Float) = 0.0
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _LowChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _LowReduceStart("低处调整的阈值", Float) = 0.0
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _LowChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _LowReduce("修改低处雾", Range(-1.0, 1.0)) = 0.0
+        [Toggle][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _HighChangeEnable("修改高处雾", Float) = 0.0
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _HighChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _HighEnhanceStart("高处调整的阈值", Float) = 100.0
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _HighChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _HighEnhance("修改高处雾", Range(-1.0, 1.0)) = 0.0
         //        [HideInInspector] _HeightMapCenterRange("高度图中心和范围", Vector) = (0,0,0,100)
         //        [HideInInspector] _HeightMapDepth("高度图深度", Float) = 10
 
@@ -100,7 +102,7 @@
         [ShowIfPropertyConditions(_SelfShadowEnable, Equal, 1)] _SelfShadowIntensity("自阴影强度", Range(0, 3)) = 1
 
         [Header(Denoise)]
-//        _DenoiseEnable("降噪1（可能导致抖动）", Range(0, 1)) = 0.0
+        //        _DenoiseEnable("降噪1（可能导致抖动）", Range(0, 1)) = 0.0
         _ReduceNoiseTiling("降低相机移动时噪点（可能导致pattern或jitter）", Range(0, 1)) = 0
         //        [Toggle(_Use_PCG_Noise)]_UsePCGNoise("降噪3-用PCG噪声算法", float) = 0.0
     }
@@ -189,9 +191,11 @@
             half _GradientStart;
             half _GradientDis;
             half _HeightPower;
-            
+
             half _ReduceNoiseTiling;
             half _ReduceUnderHeight;
+            half _ReduceFloating;
+            half _BasedHeightMapEnable;
             half _LowChangeEnable;
             half _HighChangeEnable;
             half _LowReduce;
@@ -272,16 +276,16 @@
                 float stepDistance;
                 float3 curPos;
                 float curDistance;
-                half3 pos01;
-                half heightRaw01; // 考虑高度图的归一化高度
-                half fixedHeight01; // 考虑高度图和衰减距离的归一化高度
-                half underHeightMap; // 当前距离高度图的距离
-                half lowRange; // 低处雾
-                half highRange; // 高处雾
+                half3 pos01; // normalized position
+                half height01AboveHeightmap; // normalized height above the heightmap
+                half fixedHeight01; // normalized height above the heightmap and considering height falloff
+                half heightMap01; // the distance under the heightmap
+                half lowRange; // the range of low fog
+                half highRange; // the range of high fog
             };
 
-            #include "VolumeCommon.hlsl"
-            #include "VolumeLighting.hlsl"
+            #include "VolumetricFogCommon.hlsl"
+            #include "VolumetricFogRaymarch.hlsl"
 
             uint3 Rand3DPCG16(int3 p)
             {
@@ -453,7 +457,8 @@
                 // }
                 Output output;
                 output.color = res;
-                output.fogDepth = float4(GetFogDepth(maxDepth, input.posCS.z, opaqueDepth), 0, 0, 0); // depth override, so alpha is zero. CompareDepth(maxDepth, input.posCS.z);
+                output.fogDepth = float4(GetFogDepth(maxDepth, input.posCS.z, opaqueDepth), 0, 0, 0);
+                // depth override, so alpha is zero. CompareDepth(maxDepth, input.posCS.z);
                 return output;
             }
             ENDHLSL

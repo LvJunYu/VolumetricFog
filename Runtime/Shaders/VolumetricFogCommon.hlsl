@@ -1,5 +1,5 @@
-#ifndef VolumeCommon_Include
-#define VolumeCommon_Include
+#ifndef VolumetricFogCommon_Include
+#define VolumetricFogCommon_Include
 
 float3 ReconstructWorldPos(float2 screenPos, float depth)
 {

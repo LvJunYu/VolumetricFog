@@ -20,20 +20,19 @@ Material:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: VolumetricFog5 4
+  m_Name: VolumetricFog5 6
   m_Shader: {fileID: 4800000, guid: a44899e910ba13548835067da30061b5, type: 3}
   m_ValidKeywords:
   - _HEIGHTTRANSITIONENABLE_SUBTRACT
   - _ReceiveShadow
   - _UseHeightMap
-  - _UseSelfShadow
   - _VOLUMEMAPENABLE_3DTEXTURE
   m_InvalidKeywords:
   - _COLORGRADIENTENABLE_ON
   - _ENABLELIGHTCOLOR_ON
   - _HIGHCHANGEENABLE_ON
   - _METALLICSPECGLOSSMAP
-  - _NOISELAYERCOUNT_R
+  - _NOISELAYERCOUNT_RGBA
   - _NORMALMAP
   m_LightmapFlags: 4
   m_EnableInstancingVariants: 0
@@ -123,10 +122,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
-    - _BasedHeightMapEnable: 1
+    - _BasedHeightMapEnable: 0
     - _Blend: 0
     - _BorderGradientEnable: 0
-    - _BorderTransition: 0.1
+    - _BorderTransition: 1
     - _BottomShadow: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
@@ -136,34 +135,34 @@ Material:
     - _Cutoff: 0.5
     - _DampDistance: 10
     - _DenoiseEnable: 0
-    - _Density: 0.1
+    - _Density: 0.01
     - _DetailAlbedoMapScale: 1
     - _DetailNoiseEnable: 0
-    - _DetailNoiseIntensity: 4.1
+    - _DetailNoiseIntensity: 10
     - _DetailNoiseMap2DIntensity: 0.1
-    - _DetailNoiseMapScale: 0.0266
-    - _DetailNoiseSpeed: 0
+    - _DetailNoiseMapScale: 0.029
+    - _DetailNoiseSpeed: 0.032
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
     - _EnableLightColor: 1
     - _EnvironmentReflections: 1
-    - _FogAlpha: 0.75
+    - _FogAlpha: 1
     - _FogColorBottomPower: 0.75
     - _FogColorIntensity: 1
-    - _FogColorPos: 15.8
+    - _FogColorPos: 146.5
     - _FogColorRange: 116.77
     - _FogIndirectIntensity: 1
     - _FogStartDistance: 10
     - _GlossMapScale: 0.5
     - _Glossiness: 0.5
     - _GlossyReflections: 1
-    - _GradientDis: 68.2
-    - _GradientStart: 0
+    - _GradientDis: 287.1
+    - _GradientStart: 190.3
     - _HGFactor: 0
     - _HeightBottomGradient: 0
     - _HeightMapDepth: 10
     - _HeightMapEnable: 1
-    - _HeightPower: 2.2
+    - _HeightPower: 6.6
     - _HeightTransitionEnable: 2
     - _HighChangeEnable: 1
     - _HighEnhance: -0.77
@@ -181,7 +180,7 @@ Material:
     - _MinHeight: 0
     - _Mode: 0
     - _NearDampEnable: 0
-    - _NoiseLayerCount: 0
+    - _NoiseLayerCount: 3
     - _OcclusionStrength: 1
     - _Parallax: 0.02
     - _QueueOffset: 0
@@ -189,7 +188,7 @@ Material:
     - _ReduceFloating: 1
     - _ReduceNoiseTiling: 0
     - _ReduceUnderHeight: 1
-    - _SelfShadowEnable: 1
+    - _SelfShadowEnable: 0
     - _SelfShadowIntensity: 0.64
     - _SelfShadowOffset: 0.4
     - _ShadowEnable: 1
@@ -227,7 +226,7 @@ Material:
     - _Color: {r: 1, g: 1, b: 1, a: 1}
     - _DetailNoiseSpeed: {r: 0.02, g: 0, b: 0.02, a: 1}
     - _EmissionColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
-    - _FogColor: {r: 0.4862745, g: 0.51510835, b: 0.5529412, a: 1}
+    - _FogColor: {r: 0.44732943, g: 0.52125764, b: 0.5529412, a: 1}
     - _FogColorBottom: {r: 0.47098613, g: 0.5542898, b: 0.6792453, a: 1}
     - _HeightMapCenterRange: {r: -32.01, g: 9, b: 44.1, a: 100}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}

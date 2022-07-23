@@ -1,7 +1,7 @@
-#ifndef VolumeLighting_Include
-#define VolumeLighting_Include
+#ifndef VolumetricFogRaymarch_Include
+#define VolumetricFogRaymarch_Include
 
-#include "VolumeCommon.hlsl"
+#include "VolumetricFogCommon.hlsl"
 
 #if _MultiScattering_Enable
 #include "Packages/atmosphere-scattering/Runtime/Shaders/AtmosphereCommon.hlsl"
@@ -66,6 +66,7 @@ float4 IntersectCube(float3 viewDir, float2 screenUV, float maxDepth)
     return float4(worldStartPos, length(worldEndPos - worldStartPos));
 }
 
+// use local matrix to calculate, supposing no rotation
 void GetCenterAndRange(out float3 center, out float3 scale)
 {
     float4x4 objectToWorld = GetObjectToWorldMatrix();
@@ -100,7 +101,7 @@ half CalculateDamp(RayMarchData data)
     half damp = 1;
     #if _UseBorderTransition
     {
-        #if 0 //局部空间需要矩阵运算比较费
+        #if 0 //calculate in local space, matrix multiple is expensive
         {
             float3 distanceToBorder = 0.5 - abs(TransformWorldToObject(data.curPos));
             float minDis = min(distanceToBorder.x, distanceToBorder.z);
@@ -108,9 +109,9 @@ half CalculateDamp(RayMarchData data)
         }
         #else
         {
-            // 使用模型矩阵计算，矩阵不能带旋转
             float2 distanceToBorder = 0.5 - abs(data.pos01.xz - 0.5);
             float minDis = min(distanceToBorder.x, distanceToBorder.y);
+            // damp *= saturate(minDis / (_BorderTransition * 0.5));
             damp *= smoothstep(0, _BorderTransition * 0.5, minDis);
         }
         #endif
@@ -124,14 +125,29 @@ half CalculateDamp(RayMarchData data)
     }
     #endif
 
+    #if _UseHeightMap
+    if (_ReduceUnderHeight > 0)
+    {
+        half underHeightmapDistance = max(0, data.heightMap01 - data.pos01.y);
+        damp *= 1 - saturate(underHeightmapDistance * _ReduceUnderHeight * 100);
+    }
+
+    if (_ReduceFloating > 0)
+    {
+        // remove floating fog(without value on heightmap)
+        half floatingFog = data.heightMap01 == 0 ? 1 : 0;
+        damp *= 1 - _ReduceFloating * floatingFog;
+    }
+    #endif
+
     return damp;
 }
 
 void CalculateFixedHeight01(GlobalData global_data, inout RayMarchData data)
 {
     data.fixedHeight01 = data.pos01.y;
-    data.heightRaw01 = data.pos01.y;
-    data.underHeightMap = 0;
+    data.height01AboveHeightmap = data.pos01.y;
+    data.heightMap01 = 0;
     data.lowRange = 0;
     data.highRange = 0;
     #if _HEIGHTTRANSITIONENABLE_MULTIPLY | _HEIGHTTRANSITIONENABLE_SUBTRACT
@@ -140,25 +156,26 @@ void CalculateFixedHeight01(GlobalData global_data, inout RayMarchData data)
     #if _UseHeightMap
         {
             // float2 heightUv = (pos.xz - global_data.center.xz) / max(global_data.range.x, global_data.range.z) + 0.5;
-            half sample01 = SAMPLE_TEXTURE2D_LOD(_HeightMap, sampler_HeightMap, data.pos01.xz, 0).r;
+            half heightMap01 = SAMPLE_TEXTURE2D_LOD(_HeightMap, sampler_HeightMap, data.pos01.xz, 0).r;
+            data.heightMap01 = heightMap01;
 
-            data.heightRaw01 = saturate(height01 - sample01);
+            if(_BasedHeightMapEnable > 0)
+            {
+                data.height01AboveHeightmap = saturate(height01 - heightMap01);
 
-            // 在高度图下的距离
-            data.underHeightMap = max(0, sample01 - data.pos01.y);
+                // low fog
+                // half low = saturate(_LowReduceStart / global_data.range.y);
+                data.lowRange = RemapClamped(heightMap01, 0, global_data.lowThreshold, 1, 0); 
 
-            // 低处雾
-            // half low = saturate(_LowReduceStart / global_data.range.y);
-            data.lowRange = RemapClamped(sample01, 0, global_data.lowThreshold, 1, 0); 
+                // high fog
+                // half high = saturate(_HighEnhanceStart / global_data.range.y);
+                data.highRange = RemapClamped(heightMap01, global_data.highThreshold, 1, 0, 1);
 
-            // 高处雾
-            // half high = saturate(_HighEnhanceStart / global_data.range.y);
-            data.highRange = RemapClamped(sample01, global_data.highThreshold, 1, 0, 1);
-
-            half dampLow = lerp(1, _LowReduce * _LowChangeEnable + 1, data.lowRange);
-            half dampHigh = lerp(1, _HighEnhance * _HighChangeEnable + 1, data.highRange);
-            sample01 *= dampLow * dampHigh;
-            height01 -= sample01;
+                half dampLow = lerp(1, _LowReduce * _LowChangeEnable + 1, data.lowRange);
+                half dampHigh = lerp(1, _HighEnhance * _HighChangeEnable + 1, data.highRange);
+                heightMap01 *= dampLow * dampHigh;
+                height01 -= heightMap01;
+            }
         }
     #endif
 
@@ -176,15 +193,7 @@ void UpdatePosInfo(GlobalData cubeData, inout RayMarchData data)
     CalculateFixedHeight01(cubeData, data);
 }
 
-half DampWithHeight(RayMarchData data)
-{
-    half dampUnderHeightmap = 1 - saturate(data.underHeightMap * _ReduceUnderHeight * 100);
-    // half dampLow = lerp(1, _LowReduce + 1, data.lowRange);
-    // half dampHigh = lerp(1, _HighEnhance + 1, data.highRange);
-    return dampUnderHeightmap;
-}
-
-half CalculateNoise(RayMarchData data)
+half SampleNoise(RayMarchData data)
 {
     half volumeNoise = 1;
     float3 posUv = data.curPos;
@@ -241,22 +250,21 @@ half CalculateNoise(RayMarchData data)
         volumeNoise *= 1 - saturate(data.pos01.y / (sampleTex.g * _VolumeHeight));
     #endif
 
-    volumeNoise *= DampWithHeight(data);
     return volumeNoise;
 }
 
 half GetDensity(RayMarchData data, GlobalData global_data)
 {
-    half volumeNoise = CalculateNoise(data);
+    half noise = SampleNoise(data);
 
     #if _HEIGHTTRANSITIONENABLE_MULTIPLY
-        volumeNoise *= 1 - data.fixedHeight01;
+        noise *= 1 - data.fixedHeight01;
     #elif _HEIGHTTRANSITIONENABLE_SUBTRACT
-        volumeNoise = saturate(saturate(volumeNoise) - data.fixedHeight01);// 减法不会降低对比度，保留更多细节
+        noise = saturate(saturate(noise) - data.fixedHeight01); // subtraction preserves more contrast
     #endif
 
     half density = global_data.density;
-    density *= volumeNoise;
+    density *= noise;
     density *= CalculateDamp(data);
 
     return density;
@@ -272,15 +280,16 @@ half CalculateShadow(Light light, RayMarchData data, GlobalData global_data)
         shadow = LerpWhiteTo(shadow, _ShadowIntensity);
     }
     #endif
-    
-    #if _UseSelfShadow //自阴影多算一次密度，挺费
+
+    #if _UseSelfShadow
     {
+        // one tap towards sun dir
         RayMarchData shadowRayMarchData = data;
         shadowRayMarchData.curPos = data.curPos + light.direction * _SelfShadowOffset;
         UpdatePosInfo(global_data, shadowRayMarchData);
         half shadowDensity = GetDensity(shadowRayMarchData, global_data);
         //selfShadow *= saturate(1 - shadowDensity * _SelfShadowIntensity);
-        shadow *= exp(- shadowDensity * _SelfShadowIntensity * 30);
+        shadow *= exp(-shadowDensity * _SelfShadowIntensity * 30);
     }
     #endif
     return shadow;
@@ -295,12 +304,12 @@ void CalculateLighting(RayMarchData data, GlobalData global_data, half curDensit
         // fogColor *= pow(data.fixedHeight01, 1 / _FogColorBottom * _FogColorBottomPower * 0.1);
         fogColor = lerp(_FogColorBottom, _FogColor, smoothstep(_FogColorPos - _FogColorRange,
                                                                _FogColorPos + _FogColorRange,
-                                                               data.heightRaw01 * global_data.range.y));
-        // curDensity *= lerp(1 + _BottomShadow, 1 + _TopShadow, data.heightRaw01);
+                                                               data.height01AboveHeightmap * global_data.range.y));
+        // curDensity *= lerp(1 + _BottomShadow, 1 + _TopShadow, data.height01AboveHeightmap);
         // fogColor = lerp(_FogColorBottom, _FogColor, saturate(data.fixedHeight01 * _FogColorBottomPower));
         // curDensity *= lerp(1 - _BottomShadow, 1, saturate(data.fixedHeight01 * _FogColorBottomPower));
     }
-    
+
     half3 multiScatteredLuminance = 0.0;
     #if _MultiScattering_Enable
         float3 P = data.curPos / _DistanceUnitMeter + float3(0, _BottomRadius, 0);
@@ -309,13 +318,13 @@ void CalculateLighting(RayMarchData data, GlobalData global_data, half curDensit
         half SunZenithCosAngle = dot(light.direction, UpVector);
         multiScatteredLuminance = GetMultipleScattering(pHeight, SunZenithCosAngle);
     #endif
-    
+
     float sliceTransmittance = exp(-curDensity * data.stepDistance);
     // https://www.ea.com/frostbite/news/physically-based-unified-volumetric-rendering-in-frostbite
     // lighting = (directLight * shadow + multiScatter) * extinction
     // sliceLightIntegral = lighting * (1 - exp(-extinction * stepDistance)) / extinction
     //                    = (directLight * shadow + multiScatter) * (1 - exp(-extinction * stepDistance))
-    half3 sliceLightIntegral = _FogColorIntensity * shadow + multiScatteredLuminance; 
+    half3 sliceLightIntegral = _FogColorIntensity * shadow + multiScatteredLuminance;
     sliceLightIntegral *= (1.0 - sliceTransmittance) * accuColor.a * fogColor;
     accuColor.rgb += sliceLightIntegral;
     accuColor.a *= sliceTransmittance;
