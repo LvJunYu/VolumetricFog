@@ -31,7 +31,6 @@ Material:
   - _VOLUMEMAPENABLE_3DTEXTURE
   m_InvalidKeywords:
   - _COLORGRADIENTENABLE_ON
-  - _ENABLELIGHTCOLOR_ON
   - _METALLICSPECGLOSSMAP
   - _NOISELAYERCOUNT_RGBA
   - _NORMALMAP
@@ -105,7 +104,7 @@ Material:
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - _VolumeMap:
-        m_Texture: {fileID: 11700000, guid: 82ada7e61ef237942b3d4708e4af2efc, type: 2}
+        m_Texture: {fileID: 11700000, guid: a4375a956240d13468d3af224835a02d, type: 2}
         m_Scale: {x: 1, y: 1}
         m_Offset: {x: 0, y: 0}
     - unity_Lightmaps:
@@ -123,10 +122,10 @@ Material:
     m_Ints: []
     m_Floats:
     - _AlphaClip: 0
+    - _BasedHeightMapEnable: 1
     - _Blend: 0
     - _BorderGradientEnable: 1
     - _BorderTransition: 0.1
-    - _BottomShadow: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -138,13 +137,13 @@ Material:
     - _Density: 0.4
     - _DetailAlbedoMapScale: 1
     - _DetailNoiseEnable: 0
-    - _DetailNoiseIntensity: 4.1
+    - _DetailNoiseIntensity: 1.56
     - _DetailNoiseMap2DIntensity: 0.1
-    - _DetailNoiseMapScale: 0.0266
-    - _DetailNoiseSpeed: 0
+    - _DetailNoiseMapScale: 0.0429
+    - _DetailNoiseSpeed: 0.0038
     - _DetailNormalMapScale: 1
     - _DstBlend: 0
-    - _EnableLightColor: 1
+    - _EnableLightColor: 0
     - _EnvironmentReflections: 1
     - _FogAlpha: 0.75
     - _FogColorBottomPower: 0.75
@@ -185,8 +184,9 @@ Material:
     - _Parallax: 0.02
     - _QueueOffset: 0
     - _ReceiveShadows: 1
+    - _ReduceFloating: 1
     - _ReduceNoiseTiling: 0
-    - _ReduceUnderHeight: 0
+    - _ReduceUnderHeight: 1
     - _SelfShadowEnable: 1
     - _SelfShadowIntensity: 0.54
     - _SelfShadowOffset: 0.4
@@ -197,7 +197,6 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TopShadow: -1
     - _UVSec: 0
     - _UsePCGNoise: 0
     - _VolumeHeight: 0.08
@@ -217,7 +216,7 @@ Material:
     - _VolumeMapScale_2D: 0.1
     - _VolumeMapSpeedAll: 1
     - _VolumeMapSpeedDown: 0.5
-    - _VolumeMapSpeedScale: 0.7
+    - _VolumeMapSpeedScale: 0.94
     - _WorkflowMode: 1
     - _ZWrite: 1
     m_Colors:
@@ -226,7 +225,7 @@ Material:
     - _DetailNoiseSpeed: {r: 0.02, g: 0, b: 0.02, a: 1}
     - _EmissionColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
     - _FogColor: {r: 0.895, g: 0.895, b: 0.895, a: 1}
-    - _FogColorBottom: {r: 0.47098613, g: 0.5542898, b: 0.6792453, a: 1}
+    - _FogColorBottom: {r: 0.47058824, g: 0.51406324, b: 0.6784314, a: 1}
     - _HeightMapCenterRange: {r: -32.01, g: 9, b: 44.1, a: 100}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _VolumeMapScale: {r: 0.03, g: 0.05, b: 0.05, a: 0}

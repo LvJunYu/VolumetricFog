@@ -305,9 +305,6 @@ void CalculateLighting(RayMarchData data, GlobalData global_data, half curDensit
         fogColor = lerp(_FogColorBottom, _FogColor, smoothstep(_FogColorPos - _FogColorRange,
                                                                _FogColorPos + _FogColorRange,
                                                                data.height01AboveHeightmap * global_data.range.y));
-        // curDensity *= lerp(1 + _BottomShadow, 1 + _TopShadow, data.height01AboveHeightmap);
-        // fogColor = lerp(_FogColorBottom, _FogColor, saturate(data.fixedHeight01 * _FogColorBottomPower));
-        // curDensity *= lerp(1 - _BottomShadow, 1, saturate(data.fixedHeight01 * _FogColorBottomPower));
     }
 
     half3 multiScatteredLuminance = 0.0;

@@ -126,7 +126,6 @@ Material:
     - _Blend: 0
     - _BorderGradientEnable: 1
     - _BorderTransition: 0.1
-    - _BottomShadow: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -196,7 +195,6 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TopShadow: 0.717
     - _UVSec: 0
     - _VolumeHeight: 0.08
     - _VolumeMapEnable: 1

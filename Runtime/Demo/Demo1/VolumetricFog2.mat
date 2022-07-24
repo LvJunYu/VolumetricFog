@@ -60,7 +60,6 @@ Material:
     - _Blend: 0
     - _BorderGradientEnable: 1
     - _BorderTransition: 0.323
-    - _BottomShadow: 0
     - _BumpScale: 1
     - _ColorGradientEnable: 0
     - _Cull: 2
@@ -129,7 +128,6 @@ Material:
     - _SrcBlend: 1
     - _Surface: 0
     - _TintEnable: 0
-    - _TopShadow: 0
     - _VolumeHeight: 1
     - _VolumeMapEnable: 1
     - _VolumeMapIntensity: 0.865

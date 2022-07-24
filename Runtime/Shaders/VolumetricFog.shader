@@ -2,108 +2,103 @@
 {
     Properties
     {
-        [Header(FogColor)]
-        _FogColor("雾的颜色", Color) = (1,1,1,1)
-        [Toggle]_EnableLightColor("受光照影响", Float) = 1.0
-        _FogAlpha("雾的透视度", Range(0.0, 10.0)) = 0.75
-        _Density("雾的密度", Range(0.0, 1.0)) = 0.01
-        _FogColorIntensity("光照强度", Range(0.0, 20.0)) = 5.0
+        [Header(Fog Setting)]
+        _FogColor("Fog Color", Color) = (1,1,1,1)
+        [Toggle]_EnableLightColor("Enable Light Color", Float) = 1.0
+        _FogAlpha("Fog Alpha", Range(0.0, 10.0)) = 0.75
+        _Density("Fog Density", Range(0.0, 1.0)) = 0.01
+        _FogColorIntensity("Fog Intensity", Range(0.0, 20.0)) = 5.0
 
-        [Toggle(_ReceiveShadow)] _ShadowEnable("接受阴影", Float) = 1.0
-        [ShowIfPropertyConditions(_ShadowEnable, Equal, 1)] _ShadowIntensity("阴影强度", Range(0.0, 1.0)) = 1.0
-        _HGFactor("相位系数（大于0逆光更亮）", Range(-0.96, 0.96)) = 0.3
+        [Toggle(_ReceiveShadow)] _ShadowEnable("Receive Shadow", Float) = 1.0
+        [ShowIfPropertyConditions(_ShadowEnable, Equal, 1)] _ShadowIntensity("Shadow Intensity", Range(0.0, 1.0)) = 1.0
+        _HGFactor("HG Factor", Range(-0.96, 0.96)) = 0.3
         //        [HideInInspector] _MaxLightValue("亮度最大值Clamp", Range(0, 10)) = 10
 
-        [Header(ColorGradient)]
-        [Toggle]_ColorGradientEnable("底部颜色渐变", Float) = 0.0
-        [ShowIfPropertyConditions(_ColorGradientEnable, Equal, 1)] _FogColorBottom("底部颜色", Color) = (0.4709861,0.5542898,0.6792453,1)
-        [ShowIfPropertyConditions(_ColorGradientEnable, Equal, 1)] _FogColorPos("颜色渐变高度", Float) = 2
-        [ShowIfPropertyConditions(_ColorGradientEnable, Equal, 1)] _FogColorRange("颜色渐变过渡", Float) = 1
-        //        [ShowIfPropertyConditions(_ColorGradientEnable, Equal, 1)] _BottomShadow("底部修改", Range(-1.0, 1.0)) = 0.0
-        //        [ShowIfPropertyConditions(_ColorGradientEnable, Equal, 1)] _TopShadow("顶部修改", Range(-1.0, 1.0)) = 0.0
+        [Header(Color Gradient)]
+        [Toggle]_ColorGradientEnable("Color Gradient Enable", Float) = 0.0
+        [ShowIfPropertyConditions(_ColorGradientEnable, Equal, 1)] _FogColorBottom("Bottom Color", Color) = (0.4709861,0.5542898,0.6792453,1)
+        [ShowIfPropertyConditions(_ColorGradientEnable, Equal, 1)] _FogColorPos("Gradient Position", Float) = 2
+        [ShowIfPropertyConditions(_ColorGradientEnable, Equal, 1)] _FogColorRange("Gradient Transition", Float) = 1
 
-        [Header(HeightGradient)]
-        [KeywordEnum(No, Multiply, Subtract)]_HeightTransitionEnable("密度高度衰减", Float) = 0.0
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0)] _GradientStart("衰减开始", Float) = 0
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0)] _GradientDis("衰减距离（从Cube底部开始，使用高度图则从高度图的高度开始）", Float) = 10
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0)] _HeightPower("衰减曲线（值越大衰减越快）", Range(0.1,10)) = 1
+        [Header(Density Attenuation)]
+        [KeywordEnum(No, Multiply, Subtract)]_HeightTransitionEnable("Density Attenuation Type", Float) = 0.0
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0)] _GradientStart("Attenuation Start", Float) = 0
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0)] _GradientDis("Attenuation Distance", Float) = 10
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0)] _HeightPower("Attenuation Power", Range(0.1, 10)) = 1
 
-        [Toggle(_UseHeightMap)][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0)] _HeightMapEnable("使用高度图", Float) = 0.0
-        [NoScaleOffset][SinglelineTexture][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _HeightMap("高度图", 2D) = "black" {}
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _ReduceFloating("削弱浮动的雾(高度图上没有值的区域)", Range(0.0, 1.0)) = 0.0
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _ReduceUnderHeight("遮蔽下削弱", Range(0.0, 1.0)) = 0.0
-        [Toggle][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _BasedHeightMapEnable("基于高度图进行衰减", Float) = 1.0
-        [Toggle][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _LowChangeEnable("修改低处雾", Float) = 0.0
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _LowChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _LowReduceStart("低处调整的阈值", Float) = 0.0
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _LowChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _LowReduce("修改低处雾", Range(-1.0, 1.0)) = 0.0
-        [Toggle][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _HighChangeEnable("修改高处雾", Float) = 0.0
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _HighChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _HighEnhanceStart("高处调整的阈值", Float) = 100.0
-        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _HighChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _HighEnhance("修改高处雾", Range(-1.0, 1.0)) = 0.0
-        //        [HideInInspector] _HeightMapCenterRange("高度图中心和范围", Vector) = (0,0,0,100)
-        //        [HideInInspector] _HeightMapDepth("高度图深度", Float) = 10
+        [Toggle(_UseHeightMap)][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0)] _HeightMapEnable("Heightmap Enable", Float) = 0.0
+        [NoScaleOffset][SinglelineTexture][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _HeightMap("Heightmap", 2D) = "black" {}
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _ReduceFloating("Reduce Floating Fog", Range(0.0, 1.0)) = 0.0
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _ReduceUnderHeight("Reduce Under Heightmap", Range(0.0, 1.0)) = 0.0
+        [Toggle][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1)] _BasedHeightMapEnable("Attenuation Based on Heightmap", Float) = 1.0
+        [Toggle][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _LowChangeEnable("Modify Fog in Low", Float) = 0.0
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _LowChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _LowReduceStart("Threshold in Low", Float) = 0.0
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _LowChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _LowReduce("Intensity in Low", Range(-1.0, 1.0)) = 0.0
+        [Toggle][ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _HighChangeEnable("Modify Fog in High", Float) = 0.0
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _HighChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _HighEnhanceStart("Threshold in High", Float) = 100.0
+        [ShowIfPropertyConditions(_HeightTransitionEnable, Greater, 0, _HeightMapEnable, Equal, 1, _HighChangeEnable, Equal, 1, _BasedHeightMapEnable, Equal, 1)] _HighEnhance("Intensity in High", Range(-1.0, 1.0)) = 0.0
 
-        [Header(NoiseMap)]
-        [KeywordEnum(NoTexture, 3DTexture, 2DTexture)]_VolumeMapEnable("使用噪声模拟雾的密度和飘动效果", Float) = 0.0
-        [NoScaleOffset][SinglelineTexture][ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMap("3D噪声图", 3D) = "white" {}
+        [Header(Noise Map)]
+        [KeywordEnum(NoTexture, 3DTexture, 2DTexture)]_VolumeMapEnable("Noise Map Enable", Float) = 0.0
+        [NoScaleOffset][SinglelineTexture][ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMap("3D Noise Map", 3D) = "white" {}
 
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapSpeedAll("整体速度", Vector) = (1,1,1,1)
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapSpeedScale("整体Tiling", Range(0.0, 2.0)) = 1.0
-        [KeywordEnum(R, RG, RGB, RGBA)] [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _NoiseLayerCount("噪声层数", Int) = 0
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapSpeedAll("Move Speed", Vector) = (1,1,1,1)
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapSpeedScale("Noise Tiling", Range(0.0, 2.0)) = 1.0
+        [KeywordEnum(R, RG, RGB, RGBA)] [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _NoiseLayerCount("Noise Layer", Int) = 0
 
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapScale("(R) 噪声Tiling", Range(0.0, 0.2)) = 0.1
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapIntensity("(R) 噪声影响强度", Range(0.0, 2.0)) = 1.0
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapPow("(R) 噪声Pow", Range(0.0, 2.0)) = 1.0
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapSpeed("(R) 雾的飘动速度", Vector) = (0.3,0,0,1)
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapScale("(R) Noise Tiling", Range(0.0, 0.2)) = 0.1
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapIntensity("(R) Noise Intensity", Range(0.0, 2.0)) = 1.0
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapPow("(R) Noise Pow", Range(0.0, 2.0)) = 1.0
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1)] _VolumeMapSpeed("(R) Noise Speed", Vector) = (0.3,0,0,1)
 
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 0)] _VolumeMapScale2("(G) 噪声Tiling", Range(0.0, 0.2)) = 0.05
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 0)] _VolumeMapIntensity2("(G) 噪声影响强度", Range(0.0, 2.0)) = 0.4
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 0)] _VolumeMapPow2("(G) 噪声Pow", Range(0.0, 2.0)) = 1.0
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 0)] _VolumeMapSpeed2("(G) 雾的飘动速度", Vector) = (0.3,0,0,1)
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 0)] _VolumeMapScale2("(G) Noise Tiling", Range(0.0, 0.2)) = 0.05
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 0)] _VolumeMapIntensity2("(G) Noise Intensity", Range(0.0, 2.0)) = 0.4
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 0)] _VolumeMapPow2("(G) Noise Pow", Range(0.0, 2.0)) = 1.0
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 0)] _VolumeMapSpeed2("(G) Noise Speed", Vector) = (0.3,0,0,1)
 
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 1)] _VolumeMapScale3("(B) 噪声Tiling", Range(0.0, 0.2)) = 0.05
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 1)] _VolumeMapIntensity3("(B) 噪声影响强度", Range(0.0, 2.0)) = 0.3
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 1)] _VolumeMapPow3("(B) 噪声Pow", Range(0.0, 2.0)) = 1.0
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 1)] _VolumeMapSpeed3("(B) 雾的飘动速度", Vector) = (0.3,0,0,1)
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 1)] _VolumeMapScale3("(B) Noise Tiling", Range(0.0, 0.2)) = 0.05
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 1)] _VolumeMapIntensity3("(B) Noise Intensity", Range(0.0, 2.0)) = 0.3
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 1)] _VolumeMapPow3("(B) Noise Pow", Range(0.0, 2.0)) = 1.0
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 1)] _VolumeMapSpeed3("(B) Noise Speed", Vector) = (0.3,0,0,1)
 
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 2)] _VolumeMapScale4("(A) 噪声Tiling", Range(0.0, 0.2)) = 0.05
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 2)] _VolumeMapIntensity4("(A) 噪声影响强度", Range(0.0, 2.0)) = 0.2
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 2)] _VolumeMapPow4("(A) 噪声Pow", Range(0.0, 2.0)) = 1.0
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 2)] _VolumeMapSpeed4("(A) 雾的飘动速度", Vector) = (0.3,0,0,1)
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 2)] _VolumeMapScale4("(A) Noise Tiling", Range(0.0, 0.2)) = 0.05
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 2)] _VolumeMapIntensity4("(A) Noise Intensity", Range(0.0, 2.0)) = 0.2
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 2)] _VolumeMapPow4("(A) Noise Pow", Range(0.0, 2.0)) = 1.0
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 2)] _VolumeMapSpeed4("(A) Noise Speed", Vector) = (0.3,0,0,1)
 
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 1)] _VolumeMapSpeedDown("后两层(B、A)对底部影响削弱", Range(0.01, 2.0)) = 1.0
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 1, _NoiseLayerCount, Greater, 1)] _VolumeMapSpeedDown("Layers(B and A) Weaken on the Bottom", Range(0.01, 2.0)) = 1.0
 
-        [NoScaleOffset][SinglelineTexture][ShowIfPropertyConditions(_VolumeMapEnable, Equal, 2)] _CloudNoiseMap("2D噪声图", 2D) = "white" {}
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 2)] _VolumeHeight("2D噪声高度强度", Range(0.0, 2.0)) = 1
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 2)] _VolumeMapScale_2D("2D噪声Tiling", Range(0.0, 0.2)) = 0.1
-        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 2)] _VolumeMapSpeed_2D("雾的速度(XY), Power(W)", Vector) = (0.1,0,0,1)
+        [NoScaleOffset][SinglelineTexture][ShowIfPropertyConditions(_VolumeMapEnable, Equal, 2)] _CloudNoiseMap("2D Noise Map", 2D) = "white" {}
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 2)] _VolumeHeight("2D Noise Intensity", Range(0.0, 2.0)) = 1
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 2)] _VolumeMapScale_2D("2D Noise Tiling", Range(0.0, 0.2)) = 0.1
+        [ShowIfPropertyConditions(_VolumeMapEnable, Equal, 2)] _VolumeMapSpeed_2D("2D Noise Speed(XY), Power(W)", Vector) = (0.1,0,0,1)
 
-        [Header(DetailNoiseMap)]
-        [Toggle(_UseDetailNoise)]_DetailNoiseEnable("增加噪声扭曲", Float) = 0.0
-        [NoScaleOffset][SinglelineTexture][ShowIfPropertyConditions(_DetailNoiseEnable, Equal, 1)]_DetailNoiseMap("扭曲噪声图", 3D) = "white" {}
-        [ShowIfPropertyConditions(_DetailNoiseEnable, Equal, 1)] _DetailNoiseMapScale("细节噪声Tiling", Range(0.0, 0.1)) = 0.05
-        [ShowIfPropertyConditions(_DetailNoiseEnable, Equal, 1)] _DetailNoiseIntensity("细节噪声强度", Range(0.0, 10.0)) = 1.0
-        [ShowIfPropertyConditions(_DetailNoiseEnable, Equal, 1)] _DetailNoiseSpeed("细节噪声速度", Range(0.0, 0.1)) = 0.01
+        [Header(Distortion)]
+        [Toggle(_UseDetailNoise)]_DetailNoiseEnable("Distortion Enable", Float) = 0.0
+        [NoScaleOffset][SinglelineTexture][ShowIfPropertyConditions(_DetailNoiseEnable, Equal, 1)]_DetailNoiseMap("Distortion Noise Map", 3D) = "white" {}
+        [ShowIfPropertyConditions(_DetailNoiseEnable, Equal, 1)] _DetailNoiseMapScale("Distortion Noise Tiling", Range(0.0, 0.1)) = 0.05
+        [ShowIfPropertyConditions(_DetailNoiseEnable, Equal, 1)] _DetailNoiseIntensity("Distortion Noise Intensity", Range(0.0, 10.0)) = 1.0
+        [ShowIfPropertyConditions(_DetailNoiseEnable, Equal, 1)] _DetailNoiseSpeed("Distortion Noise Speed", Range(0.0, 0.1)) = 0.01
 
-        [Header(MaxDistance)]
-        [Toggle(_UseMaxDistance)]_MaxDistanceEnable("体积雾最远距离（体积雾范围过大时开启，提高精度）", Float) = 1.0
-        [ShowIfPropertyConditions(_MaxDistanceEnable, Equal, 1)] _MaxDistance("体积雾最远距离", Float) = 50
+        [Header(Max Distance)]
+        [Toggle(_UseMaxDistance)]_MaxDistanceEnable("Max Distance Enable", Float) = 1.0
+        [ShowIfPropertyConditions(_MaxDistanceEnable, Equal, 1)] _MaxDistance("Max Distance", Float) = 50
 
-        [Header(BorderTransition)]
-        [Toggle(_UseBorderTransition)]_BorderGradientEnable("开启边缘过渡（Cube不能有旋转）", Float) = 0.0
-        [ShowIfPropertyConditions(_BorderGradientEnable, Equal, 1)] _BorderTransition("XZ方向过渡程度", Range(0, 1)) = 0
+        [Header(Border Transition)]
+        [Toggle(_UseBorderTransition)]_BorderGradientEnable("Border Transition Enable", Float) = 0.0
+        [ShowIfPropertyConditions(_BorderGradientEnable, Equal, 1)] _BorderTransition("Border Transition Intensity", Range(0, 1)) = 0
 
-        [Header(NearDamp)]
-        [Toggle(_UseNearDamp)]_NearDampEnable("近处没有雾", Float) = 0.0
-        [ShowIfPropertyConditions(_NearDampEnable, Equal, 1)] _FogStartDistance("没雾的范围", Float) = 10.0
-        [ShowIfPropertyConditions(_NearDampEnable, Equal, 1)] _DampDistance("渐变范围", Float) = 10.0
+        [Header(Attenuation Nearby)]
+        [Toggle(_UseNearDamp)]_NearDampEnable("Attenuation Nearby Enable", Float) = 0.0
+        [ShowIfPropertyConditions(_NearDampEnable, Equal, 1)] _FogStartDistance("Attenuation Start", Float) = 10.0
+        [ShowIfPropertyConditions(_NearDampEnable, Equal, 1)] _DampDistance("Attenuation Transition", Float) = 10.0
 
-        [Header(SelfShadow)][Toggle(_UseSelfShadow)]_SelfShadowEnable("开启自阴影", Float) = 0.0
-        [ShowIfPropertyConditions(_SelfShadowEnable, Equal, 1)] _SelfShadowOffset("自阴影偏移距离", Range(0, 5)) = 1
-        [ShowIfPropertyConditions(_SelfShadowEnable, Equal, 1)] _SelfShadowIntensity("自阴影强度", Range(0, 3)) = 1
+        [Header(Self Shadow)][Toggle(_UseSelfShadow)]_SelfShadowEnable("Self Shadow Enable", Float) = 0.0
+        [ShowIfPropertyConditions(_SelfShadowEnable, Equal, 1)] _SelfShadowOffset("Self Shadow Offset", Range(0, 5)) = 1
+        [ShowIfPropertyConditions(_SelfShadowEnable, Equal, 1)] _SelfShadowIntensity("Self Shadow Intensity", Range(0, 3)) = 1
 
         [Header(Denoise)]
-        //        _DenoiseEnable("降噪1（可能导致抖动）", Range(0, 1)) = 0.0
-        _ReduceNoiseTiling("降低相机移动时噪点（可能导致pattern或jitter）", Range(0, 1)) = 0
+        _ReduceNoiseTiling("Reduce Noisy", Range(0, 1)) = 0
         //        [Toggle(_Use_PCG_Noise)]_UsePCGNoise("降噪3-用PCG噪声算法", float) = 0.0
     }
     SubShader
@@ -161,8 +156,6 @@
             half4 _VolumeMapSpeedAll;
             half _VolumeMapSpeedScale;
             half _VolumeMapSpeedDown;
-            // half _BottomShadow;
-            // half _TopShadow;
             int _NoiseLayerCount;
             half _VolumeMapScale;
             half _VolumeMapIntensity;
@@ -202,8 +195,6 @@
             half _LowReduceStart;
             half _HighEnhance;
             half _HighEnhanceStart;
-            // float4 _HeightMapCenterRange;
-            // float _HeightMapDepth;
             // half _HeightBottomGradient;
 
             float _MaxDistance;

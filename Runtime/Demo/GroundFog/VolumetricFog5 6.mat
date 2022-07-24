@@ -126,7 +126,6 @@ Material:
     - _Blend: 0
     - _BorderGradientEnable: 0
     - _BorderTransition: 1
-    - _BottomShadow: 0
     - _BumpScale: 1
     - _ClearCoatMask: 0
     - _ClearCoatSmoothness: 0
@@ -198,7 +197,6 @@ Material:
     - _SpecularHighlights: 1
     - _SrcBlend: 1
     - _Surface: 0
-    - _TopShadow: -1
     - _UVSec: 0
     - _UsePCGNoise: 0
     - _VolumeHeight: 0.08
@@ -227,7 +225,7 @@ Material:
     - _DetailNoiseSpeed: {r: 0.02, g: 0, b: 0.02, a: 1}
     - _EmissionColor: {r: 0.8584906, g: 0.8584906, b: 0.8584906, a: 1}
     - _FogColor: {r: 0.44732943, g: 0.52125764, b: 0.5529412, a: 1}
-    - _FogColorBottom: {r: 0.47098613, g: 0.5542898, b: 0.6792453, a: 1}
+    - _FogColorBottom: {r: 0.6784314, g: 0.47058824, b: 0.62462443, a: 1}
     - _HeightMapCenterRange: {r: -32.01, g: 9, b: 44.1, a: 100}
     - _SpecColor: {r: 0.2, g: 0.2, b: 0.2, a: 1}
     - _VolumeMapScale: {r: 0.03, g: 0.05, b: 0.05, a: 0}
