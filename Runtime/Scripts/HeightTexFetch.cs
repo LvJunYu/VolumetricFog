@@ -22,9 +22,6 @@ public class HeightTexFetch : MonoBehaviour
     [ContextMenu("生成高度图")]
     public void BakeHeightTex()
     {
-        var mat = GetComponent<MeshRenderer>().sharedMaterial;
-        var path = AssetDatabase.GetAssetPath(mat);
-        var extendName = Path.GetExtension(path);
         var center = transform.position;
         var transSize = transform.lossyScale / 2f;
         var height = transSize.y * 2f;
@@ -32,12 +29,20 @@ public class HeightTexFetch : MonoBehaviour
         center.y += transSize.y;
         var texSize = Mathf.Min(MaxHeightTextureSize, Mathf.RoundToInt(size * 2f / meterPerPix));
         var depthCopyShader = Shader.Find("Hidden/VolumetricFog/HeightFetchCopyDepth");
-        var savePath = path.Replace(extendName, "_HeightMap.png");
+        var mat = GetComponent<MeshRenderer>().sharedMaterial;
+        var savePath = GetSamePathWithObj(mat, "_HeightMap.png");
         bakedHeightMap = GetDepth(center, size, height, blurCount, layerMask, texSize, depthCopyShader,
             savePath);
         mat.SetTexture("_HeightMap", bakedHeightMap);
         // mat.SetVector("_HeightMapCenterRange", new Vector4(center.x, center.y, center.z, size));
         // mat.SetFloat("_HeightMapDepth", height);
+    }
+
+    private string GetSamePathWithObj(Object mat, string name)
+    {
+        var path = AssetDatabase.GetAssetPath(mat);
+        var extendName = Path.GetExtension(path);
+        return path.Replace(extendName, name);
     }
 #endif
 
