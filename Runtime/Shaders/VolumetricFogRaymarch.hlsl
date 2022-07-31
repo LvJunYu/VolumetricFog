@@ -125,7 +125,7 @@ half CalculateDamp(RayMarchData data)
     }
     #endif
 
-    #if _UseHeightMap
+    #if _UseHeightMap & (_HEIGHTTRANSITIONENABLE_MULTIPLY | _HEIGHTTRANSITIONENABLE_SUBTRACT)
     if (_ReduceUnderHeight > 0)
     {
         half underHeightmapDistance = max(0, data.heightMap01 - data.pos01.y);
