@@ -1,10 +1,24 @@
 # Volumetric Fog for URP
 
-![](Documentation~/VolumetricFog1.png)
 ![](Documentation~/VolumetricFog2.png)
 ![](Documentation~/VolumetricFogBreakdown.gif)
 
+[Atmosphere Project](https://github.com/LvJunYu/AtmosphereScattering)
+
 ## [Development Log](https://jojo-lyu.notion.site/Development-Log-Fog-436915344c7849c09fc44eefd7b4797b?pvs=4)
+
+
+- [x]  Raymarching
+- [x]  Spatial Filter
+- [x]  Temporal Filter
+- [x]  Box Integration
+- [x]  Phase function
+- [x]  Shadow Map Supported
+- [x]  Density Map Supported (2D & 3D)
+- [x]  Distortion - Curl Map
+- [x]  Self-Shadow
+- [x]  Height Map Supported
+- [x]  Color Gradient
 
 ### References
 * [Gjoel16] [Low Complexity, High Fidelity: The Rendering of INSIDE](https://www.gdcvault.com/play/1023002/Low-Complexity-High-Fidelity-INSIDE)
