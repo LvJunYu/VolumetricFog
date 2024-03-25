@@ -5,9 +5,9 @@
 
 [Atmosphere Project](https://github.com/LvJunYu/AtmosphereScattering)
 
-## [Development Log](https://jojo-lyu.notion.site/Development-Log-Fog-436915344c7849c09fc44eefd7b4797b?pvs=4)
+## Development Log
 
-
+[Development Log](https://jojo-lyu.notion.site/Development-Log-Fog-436915344c7849c09fc44eefd7b4797b?pvs=4)
 - [x]  Raymarching
 - [x]  Spatial Filter
 - [x]  Temporal Filter
