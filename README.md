@@ -1,5 +1,5 @@
 # Volumetric Fog for URP
-
+A physically based volumetric fog rendering solution aimed at mobile platforms, featuring local volume, self-shadowing, phase functions, and more.
 ![](Documentation~/VolumetricFog2.png)
 ![](Documentation~/VolumetricFogBreakdown.gif)
 
